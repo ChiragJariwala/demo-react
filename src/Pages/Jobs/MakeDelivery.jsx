@@ -174,7 +174,7 @@ const MakeDelivery = () => {
                   setItemList(item)
                   console.log(item)
                 }}
-                 onRowDoubleClick={item => history.push("/Delivery/Details/" + item.row.JobNumber)}
+                 onRowDoubleClick={item => history("/Delivery/Details/" + item.row.JobNumber)}
               />
             </div>
           </Paper>

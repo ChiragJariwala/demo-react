@@ -134,7 +134,7 @@ const Jobs = () => {
                     setItemList(item)
                     console.log(item)
                   }}
-                  onRowDoubleClick={item => history.push("/jobs/jobdetails/" + item.row.JobNumber)}
+                  onRowDoubleClick={item => history("/jobs/jobdetails/" + item.row.JobNumber)}
                 />
               </div>
             </Paper>

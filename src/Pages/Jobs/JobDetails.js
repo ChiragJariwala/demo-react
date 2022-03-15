@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { Button, Paper, Typography, Box, TextField, Grid,  Autocomplete} from '@mui/material'
+import { Button, Paper, Typography, Box, TextField, Grid, Autocomplete } from '@mui/material'
 import { useSelector } from 'react-redux';
 import axios from "axios";
 import Navbar from '../Navbar/Navbar';
@@ -10,7 +10,8 @@ const uri = process.env.REACT_APP_API_KEY
 const JobDetails = () => {
     const ActiveUser = useSelector(state => state.auth)
 
-    
+    // const [formData, setFormData] = useState([])
+
     let history = useNavigate();
     const { id } = useParams()
     //hooks
@@ -47,7 +48,7 @@ const JobDetails = () => {
     const [remarks, setRemarks] = useState('') //Job Remarks
 
 
-   
+
 
     const JobFactoryInward = async () => {
         // Customer API call
@@ -59,9 +60,22 @@ const JobDetails = () => {
         await axios.get(uri + "/Branch/GetAllBranch", {
             withCredentials: true, crossOrigin: true
         }).then((branch) => setBranchList(branch.data))
-        .catch(error=>{
-            console.clear()
-        })
+            .catch(error => {
+                console.clear()
+            })
+
+        await axios.get(uri + "/Branch/GetBranchByID", {
+            params: {
+                brID: ActiveUser.BranchID
+            }
+        }, {
+            withCredentials: true, crossOrigin: true
+        }).then((branch) => setBranchName(branch.data[0].BranchName))
+            .catch(error => {
+                console.clear()
+            })
+
+
 
         //Product Group API call
         await axios.get(uri + "/Product/ProductCatagory", {
@@ -147,7 +161,7 @@ const JobDetails = () => {
                         <Grid item sm={12} >
 
                             <Typography id="transition-modal-title" variant="h4" mt={2} component="h2">
-                                Job Code • {jobid}
+                                Job Code • {id}
                             </Typography>
                         </Grid>
                         <Grid item sm={6} >
@@ -175,7 +189,16 @@ const JobDetails = () => {
                             />
                         </Grid>
                         <Grid item sm={6} >
-                            <Autocomplete
+                            <label htmlFor="somename">Branch</label>
+                            <select name="somename" id="" className='form-select' onChange={(e, v) => {
+                                        setBranchID(e.target.value)
+                                }}>
+                                <option disabled selected> </option>
+                                {branchList.map(v => 
+                                    <option value={v.BranchID}>{v.BranchName}</option>
+                                )}
+                            </select>
+                            {/* <Autocomplete
                                 fullWidth
                                 disablePortal
                                 includeInputInList
@@ -185,15 +208,15 @@ const JobDetails = () => {
                                 defaultValue={branchList.find(v => v.BranchID)}
                                 getOptionLabel={(x) => x.BranchName || ActiveUser.Branch}
                                 value={ActiveUser.Branch}
-
                                 onChange={(e, v) => {
                                     if (v) {
+                                        console.log(v.BranchID)
                                         setBranchID(v.BranchID)
                                         setBranchName(v.BranchName)
                                     }
                                 }}
                                 renderInput={(params) => <TextField {...params} variant='standard' fullWidth label="Select Branch" margin='normal' />}
-                            />
+                            /> */}
                         </Grid>
 
                         <Grid item sm={6} >
@@ -294,14 +317,14 @@ const JobDetails = () => {
                         </Grid>
                         <Grid item m={3} sm={1}>
                             <Button fullWidth variant='contained' color='inherit' onClick={(e) => {
-                                if (jobid) {
+                                if (id) {
 
                                     // window.location.reload()
                                     console.log("Selected Product: ", ProductID, GroupCode, itemQty, itemRate, jobid)
                                     axios.post(uri + "/Jobs/JobDetails",
                                         {
 
-                                            "JobNumber": jobid,
+                                            "JobNumber": id,
                                             "ProductID": ProductID,
                                             "ProductCategoryID": GroupCode,
                                             "Qty": itemQty,
@@ -329,7 +352,7 @@ const JobDetails = () => {
                                         {
 
                                             "CustomerID": ClientID,
-                                            "JobDate": '02-02-2022',
+                                            "JobDate": sRDate,
                                             "DeliveryType": remarks,
                                             "BranchID": BranchID,
                                             "UserID": sid,

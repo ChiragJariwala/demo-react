@@ -6,7 +6,7 @@ import Navbar from '../../Pages/Navbar/Navbar'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Customers = () => {
+const Customers = (props) => {
     const uri = process.env.REACT_APP_API_KEY
     const [customers, setCustomers] = useState([])
     const navigate = useNavigate();
@@ -20,6 +20,7 @@ const Customers = () => {
 
             })
     }
+    console.log(props.id)
     useEffect(() => {
         refreshData()
 

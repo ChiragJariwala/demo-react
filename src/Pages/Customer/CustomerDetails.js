@@ -17,8 +17,7 @@ const CustomerDetails = () => {
     const [CustArea, setCustArea] = useState(0)
     const [CustAreaName, setCustAreaName] = useState('')
     topTags.sort();
-    let {id} = useParams()
-    {!id && window.alert('New Client')}
+    let { id } = useParams()
     const [custData, setcustData] = useState({
         name: "",
         ContactNumber: "",

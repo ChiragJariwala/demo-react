@@ -25,19 +25,24 @@ import UserTypes from './Employee/UserTypes'
 import Biils from './Jobs/Biils'
 import Navbar from "./Navbar/Navbar";
 import DeletedCustomer from "./Customer/DeletedCustomer";
+import BillDetails from "./Jobs/BillDetails";
+import { useSelector } from "react-redux";
 
 function AppRoutes() {
-  const isAdmin = true;
+  const isAdmin = useSelector(state=>state.auth.isAdmin);
   return (
     <Router>
-      
     <Routes>
+      
       <Route>
+      
         <Route path='/' element={<Home />} />
         <Route path='/Dashboard' exact element={<Dashboard />} />
         <Route exact path='/Customers/CustomerDetails' element={<CustomerDetails />} />
         <Route exact path='/Customers/CustomerDetails/:id' element={<CustomerDetails />} />
-        <Route exact path='/Customers' element={<Customers />} />
+        <Route exact path='/Customers' element={<Customers id="Customers" />} />
+        <Route exact path='/abc' element={<Customers id="Jobs" />} />
+
         <Route path='/Products' element={<Products />} />
         <Route path='/Inwards' element={<Inwards />} />
         <Route exact path='/Jobs' element={<Jobs />} />
@@ -54,6 +59,8 @@ function AppRoutes() {
         <Route path='/settings' element={<Settings />} />
         <Route path='/Categories' element={<Categories />} />
         <Route path='/Bills' element={<Biils />} />
+        <Route path='/Bills/BillDetails' element={<BillDetails />} />
+        <Route path='/Bills/BillDetails/:id' element={<BillDetails />} />
         <Route exact path='/users/NewUser' element={<NewUser />} />
         <Route exact path='/users/type' element={<UserTypes />} />
         <Route exact path='/users' element={<UserInfo />} />
@@ -106,7 +113,7 @@ function Home() {
           <div className="container-fluid py-5 text-center">
             <h1 className="display-5 fw-bold text-center">Green Clean Dry Cleaners</h1>
             <p className="col- fs-4 text-center">Software by Clickrabbit</p>
-            {/* <Link target="_blank" classNameName="btn btn-primary btn-lg" to={{ pathname: "https//clickrabbit.in"}} >Click for Support</Link> */}
+            {/* <Link target="_blank" className="btn btn-primary btn-lg" to={{ pathname: "https//clickrabbit.in"}} >Click for Support</Link> */}
           </div>
           <div className='d-flex justify-content-center'>
             <img src="http://www.greenclean.co.in/images/logo.png" alt="LOGO" />
@@ -129,10 +136,10 @@ function Home() {
                 <Link className='text-decoration-none' to='/'> <FcPlus /> Branch Outward </Link>
               </div>
               <div className="col-6">
-                <Link classNameName='text-decoration-none' to='/'> <FcFile /> Generate Bill </Link>
+                <Link className='text-decoration-none' to='/'> <FcFile /> Generate Bill </Link>
               </div>
               <div className="col-6">
-                <Link classNameName='text-decoration-none' to='/'> <DeliveryDiningTwoTone fontSize='25px' /> Delivery </Link>
+                <Link className='text-decoration-none' to='/'> <DeliveryDiningTwoTone fontSize='25px' /> Delivery </Link>
               </div>
             </div>
           </div>

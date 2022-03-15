@@ -49,7 +49,8 @@ const Branches = () => {
         })
         .catch(err => {
           if (err.response.status === 401) {
-            history('/login')
+            localStorage.clear()
+            history('/')
           }
         });
 

@@ -7,10 +7,11 @@ const initialAuthState = {
   isAuthenticated: false,
   User: '',
   UserType: '',
-  Branch:'',
-  
-};
+  Branch: '',
+  isAdmin: false
 
+};
+let userDetails = '';
 const authSlice = createSlice({
   name: 'authentication',
   initialState: initialAuthState,
@@ -25,18 +26,24 @@ const authSlice = createSlice({
           crossOrigin: true
 
         }).then((res) => {
-          localStorage.setItem('_User', JSON.stringify(res.data))
+          localStorage.setItem('_User', JSON.stringify(res.data[0]))
         }
         )
         .catch(error => window.alert(error))
+
       var userDetails = JSON.parse(localStorage.getItem('_User'));
       console.log(userDetails)
       if (localStorage.hasOwnProperty('_User')) {
         console.log(userDetails)
         state.isAuthenticated = true;
+        if(userDetails.UserType ==="Admin"){
+        state.isAdmin =  true
+
+        }
+        console.log(document.cookie)
         state.User = userDetails.UserName;
         state.UserType = userDetails.UserType;
-        state.Branch = userDetails.BranchID
+        state.Branch = userDetails.BranchName
       }
 
     },
@@ -46,6 +53,10 @@ const authSlice = createSlice({
     },
   },
 });
+
+
+
+
 
 export const authActions = authSlice.actions;
 
