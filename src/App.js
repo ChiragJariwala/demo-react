@@ -12,10 +12,8 @@ function App({ authorized }) {
   let [valid,setValid] = useState(true)
   return (
     <>
-      {authorized != isAuth &&
-        setValid(false)
-      }
-      {valid && <Login />}
+    
+      {!isAuth && <Login />}
       {isAuth &&
         <>
 
